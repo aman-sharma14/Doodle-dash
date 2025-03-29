@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        body{
+            background-image: url(https://cdn2.steamgriddb.com/hero_thumb/ac0045e94dfd303cf967f078468842fc.jpg);
+            background-size: cover;
+            background-position: center;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #myCanvas{
+            border: 2px solid black;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #canvas_ui{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2%;
+            align-items: center;
+        }
+
+        #els{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        #msg{
+            height: 55vh;
+            width: 55vw;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 9.8% auto;
+            position: fixed;
+            z-index: 1000;
+            border-radius: 15px;
+        }
+
+        #msg p{
+            color: aliceblue;
+            font-size: 1.5em;
+        }
+
+        #msgB{
+            display: flex;
+            flex-direction: row;
+            cursor: pointer;
+            gap: 20px;
+        }
+
+        #msgB button{
+            width: 100px;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #fff;
+            color: black;
+            font-weight: bold;
+        }
+
+        #header{
+            display: flex;
+            width: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+        }
+
+        #roomid{
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        #start{
+            display: flex;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+        }
+
+        #members{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 15%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .memberID{
+            width: 100%;
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        #game{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        #bar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #00bfff;
+            color: white;
+            padding: 15px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #gameDiv{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 90%;
+            margin-top: 20px;
+        }
+
+        #chat{
+            width: 25%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 450px;
+        }
+
+        #chatMessages{
+            height: 100%;
+            overflow-y: scroll;
+            padding-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chatMsg{
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+
+        #chatInput{
+            display: flex;
+            gap: 10px;
+        }
+
+        #chatInput input{
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+        }
+
+        #chatInput button{
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ff5c5c;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <div id="roomid" title="roomID">Room ID: hffvh</div>
+        <button id="start">Start Game</button>
+    </div>
+
+    <div id="game">
+        <div id="bar">
+            Game Progress Bar
+        </div>
+    
+        <div id="gameDiv">
+            <div id="members">
+                <p class="memberID">John</p>
+                <p class="memberID">Jane</p>
+                <p class="memberID">John</p>
+                <p class="memberID">John</p>
+                <p class="memberID">John</p>
+                <p class="memberID">John</p>
+                <p class="memberID">John</p>
+                <p class="memberID">John</p>
+            </div>
+
+            <div id="canvas_ui">
+                <div id="c">
+                    <canvas id="myCanvas" height="450" width="800" style="background-color: white;"></canvas>
+                </div>
+                <div id="els">
+                    <button id="clear">Clear</button>
+                    <div>
+                        <label for="colour">Choose Color: </label>
+                        <input id="colour" type="color">
+                    </div>
+                    <div>
+                        <label for="size">Line Width: </label>
+                        <input id="size" type="range" min="1" max="10" value="3">
+                    </div>
+                </div>
+            </div>
+
+            <div id="chat">
+                <div id="chatMessages">
+                    <div class="chatMsg">Hello, everyone!</div>
+                    <div class="chatMsg">Hi!</div>
+                </div>
+                <div id="chatInput">
+                    <input type="text" placeholder="Type a message...">
+                    <button>Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        
+        const canvas = document.getElementById('myCanvas');
+        const cwidth = canvas.width;
+        const cheight = canvas.height;
+        const ctx = canvas.getContext("2d");
+
+        const nameEl = document.getElementById('pname');
+        let name = nameEl.value;
+
+        const create = document.getElementById('create');
+        const join = document.getElementById('join');
+        const start = document.getElementById('start');
+        let roomip = document.getElementById('iRoom');
+        let room_val = roomip.value;
+
+
+        let canDraw = true;
+        
+
+        let widthEl = document.getElementById('size')
+        let colorEl = document.getElementById('colour');
+        let buttonEl = document.getElementById('clear');
+        
+        let width = widthEl.value
+        let color = colorEl.value
+        
+
+        let drawing = false;
+
+
+        const socket = io();
+
+        document.addEventListener('mousedown',(a)=>{
+            if (!canDraw) return;
+            drawing = true;
+            
+            const coords = canvas.getBoundingClientRect();
+            const x = a.clientX - coords.left;
+            const y = a.clientY - coords.top;
+            ctx.beginPath();
+
+            socket.emit('startDrawing',{x,y});
+
+
+        })
+
+        document.addEventListener('mouseup',()=>{
+            if (!canDraw) return;
+            drawing = false;
+            ctx.beginPath();
+            socket.emit('stopDrawing');
+            
+        })
+
+        document.addEventListener('mousemove',(a)=>{
+            if (!canDraw || !drawing) return;
+
+                const coords = canvas.getBoundingClientRect();
+                const x = a.clientX - coords.left;
+                const y = a.clientY - coords.top;
+                
+                socket.emit('draw',{x,y,width,color});
+
+                ctx.lineWidth = width;
+                ctx.strokeStyle = color;
+                ctx.lineCap = 'round';
+
+                ctx.lineTo(x,y);
+                ctx.stroke();
+                ctx.beginPath(); 
+                ctx.moveTo(x,y);
+            
+        })
+
+        widthEl.addEventListener('input',()=>{
+            width = widthEl.value;
+            
+        })
+
+        colorEl.addEventListener('input',()=>{
+            color = colorEl.value;
+            
+        })
+
+        nameEl.addEventListener('input',()=>{
+            name = nameEl.value;
+            
+        })
+
+        buttonEl.addEventListener('click',()=>{
+            ctx.clearRect(0,0,cwidth,cheight);
+            socket.emit('clearCanvas',{cwidth,cheight});
+        })
+
+        socket.on('startDrawing',({x,y})=>{
+            ctx.beginPath();
+            ctx.moveTo(x,y)
+            
+        })
+
+        socket.on('draw',({x,y,width,color})=>{
+            ctx.lineWidth = width;
+                ctx.strokeStyle = color;
+                ctx.lineCap = 'round';
+
+                ctx.lineTo(x,y);
+                ctx.stroke();
+                ctx.beginPath(); 
+                ctx.moveTo(x,y);
+        })
+       
+        socket.on('clearCanvas',()=>{
+            ctx.clearRect(0,0,cwidth,cheight);
+        })
+
+        socket.on('stopDrawing',()=>{
+            ctx.beginPath();
+        })
+
+        roomip.addEventListener('input',()=>{
+            room_val = roomip.value;
+        })
+
+        create.addEventListener('click',()=>{
+            name = nameEl.value
+            if(name.trim() === ""){
+                alert('Enter a Player Name')
+            }
+            else{
+                console.log(name, "event sent")
+                socket.emit('createRoom',name);
+            }
+            
+        })
+
+        socket.on('roomCreated',(roomID)=>{
+            console.log(`Room created ${roomID}`)
+            alert(`Room with ID: ${roomID} has been created successfully`);
+            //document.getElementById('roomid').innerText = roomID;
+            start.style.display = 'flex';
+            
+        })
+
+        
+
+        // join.addEventListener('click',()=>{
+        //     name = nameEl.value
+        //     if(name.trim() === ""){
+        //         alert('Enter a Player Name')
+        //     }
+        //     else{
+        //         socket.emit('joinRoom',{name, room_val});
+        //         roomip.value = '';
+        //     }
+            
+
+        // })
+
+        join.addEventListener('click',()=>{
+
+            name = nameEl.value
+
+            if(name.trim() === ""){
+
+            alert('Enter a Player Name')
+
+            }
+
+            else{
+
+            let roomID = document.getElementById('iRoom').value.trim();
+
+            if (!roomID) {
+
+                alert('Enter a Room ID');
+
+                return;
+
+            }
+
+            socket.emit('joinRoom',{name, roomID});
+
+            roomip.value = '';
+
+            }
+
+        })
+
+        socket.on('roomJoined',(roomID)=>{
+            alert(`You successfully joined Room: ${roomID}`);
+            
+        })
+
+        socket.on('PlayerJoins',(sids)=>{
+            document.getElementById('members').innerHTML = ``;
+            sids.forEach(sid => {
+                document.getElementById('members').innerHTML += `<br> ${sid}`;
+            });
+        })
+
+        socket.on('roomEr',()=>{
+            alert('No such room exists')
+        })
+
+
+        document.getElementById('start').addEventListener('click',()=>{
+            let roomID = document.getElementById('roomid').innerText;
+            console.log(roomID);
+            socket.emit('startGame');
+            
+        })
+
+        socket.on('enableDraw',({ drawe, nam })=>{
+            
+            document.getElementById('canvas_ui').style.display = 'flex';
+            ctx.clearRect(0,0,cwidth,cheight);
+            console.log(drawe);
+            console.log(socket.id);
+            console.log(String(socket.id) === String(drawe));
+  
+            document.getElementById('text2').innerHTML = `${drawe}   ${socket.id}     ${String(socket.id) === String(drawe)}`
+
+            if(String(socket.id) === String(drawe)){
+                canDraw = true;
+                document.getElementById('els').style.display = 'flex';
+            }
+            else{
+                canDraw = false;
+                document.getElementById('els').style.display = 'none';
+            }
+             
+           
+            
+        })
+
+        
+       
+
+
+
+    </script>
+</body>
+</html>

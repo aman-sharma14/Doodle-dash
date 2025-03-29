@@ -1,0 +1,11 @@
+{
+    "name": "skribbl",
+    "version": "0.0.1",
+    "description": "skribbl clone",
+    "type": "module",
+    "dependencies": {
+        "express": "^4.19.2",
+        "socket.io": "^4.7.5"
+    }
+   
+}
